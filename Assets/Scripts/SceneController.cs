@@ -16,6 +16,7 @@ public class SceneController : MonoBehaviour
         {
             pause.SetActive(false);
         }
+        Time.timeScale = 1;
     }
 
     public void ExitGame()
