@@ -13,6 +13,7 @@ public class CreateUser : MonoBehaviour
     public GameObject create_player;
     public GameObject main_menu;
     public InputField inputName;
+    public DataService _dataService;
 
     private void Start()
     {
@@ -21,15 +22,16 @@ public class CreateUser : MonoBehaviour
             create_player.SetActive(false);
             main_menu.SetActive(true);
         }
+        _dataService = new DataService("drift_arcade.db");
     }
 
     public void CreatePlayer()
     {
-        using (var db = new SQLiteConnection(Application.dataPath + "/DB/drift_arcade.db"))
+        using (var db = _dataService._connection)
         {
             string query = $"INSERT INTO Player (name, money) VALUES ('{inputName.text}', 0)";
             db.Execute(query);
-            
+
             string getLastIdQuery = "SELECT last_insert_rowid()";
             int lastId = db.ExecuteScalar<int>(getLastIdQuery);
             PlayerPrefs.SetInt("id", lastId);
@@ -37,6 +39,7 @@ public class CreateUser : MonoBehaviour
             Debug.Log(lastId); 
             create_player.SetActive(false);
             main_menu.SetActive(true);
+
         }
     }
 }

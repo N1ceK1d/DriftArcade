@@ -48,7 +48,7 @@ public class CarController2 : MonoBehaviour
         // Сопротивление и ограничение максимальной скорости
         MoveForce *= Drag;
         MoveForce = Vector3.ClampMagnitude(MoveForce, MaxSpeed);
-        startEmiting();
+        // startEmiting();
                
         // Debug.DrawRay(transform.position, MoveForce.normalized * 3); // Отрисовка луча для отладки
         // Debug.DrawRay(transform.position, transform.forward * 3, Color.blue); // Отрисовка луча для отладки
@@ -58,20 +58,20 @@ public class CarController2 : MonoBehaviour
                     MoveForce.magnitude;
     }
 
-    public void startEmiting()
-    {
-        emiting = true;
-        foreach (TrailRenderer t in trails)
-        {
-            t.emitting = true;
-        }
-    }
-    public void stopEmiting()
-    {
-        emiting = false;
-        foreach (TrailRenderer t in trails)
-        {
-            t.emitting = false;
-        }
-    }
+    // public void startEmiting()
+    // {
+    //     emiting = true;
+    //     foreach (TrailRenderer t in trails)
+    //     {
+    //         t.emitting = true;
+    //     }
+    // }
+    // public void stopEmiting()
+    // {
+    //     emiting = false;
+    //     foreach (TrailRenderer t in trails)
+    //     {
+    //         t.emitting = false;
+    //     }
+    // }
 }

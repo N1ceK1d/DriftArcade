@@ -49,10 +49,12 @@ public class SelectCar : MonoBehaviour
 
     public Transform carSpawn;
 
+    public DataService _dataService;
+
     private void Start() {
         getData();
         nextCar.onClick.AddListener(() => ShowNextCar());
-        prevCar.onClick.AddListener(() => ShowPrevCar());
+        prevCar.onClick.AddListener(() => ShowPrevCar());        
     }
 
     public void ShowNextCar() 
@@ -77,7 +79,7 @@ public class SelectCar : MonoBehaviour
 
     public void ShowCurrentCar()
     {
-        if (carIndex < 0 || carIndex >= carList.Count())
+        if (carList == null || carIndex < 0 || carIndex >= carList.Count())
         {
             Debug.Log("No car to display");
             return;
@@ -98,21 +100,13 @@ public class SelectCar : MonoBehaviour
 
     public void getData()
     {
-        using (var db = new SQLiteConnection(Application.dataPath + "/DB/drift_arcade.db"))
+        using (var db = new DataService("drift_arcade.db")._connection)
         {
             IEnumerable<Car> list = db.Query<Car>("SELECT * FROM Cars");
-            carList = list;
+            Debug.Log(list.Count());
             carIndex = 0;
+            carList = list;
             ShowCurrentCar();
-        }
-    }
-
-    public void GetPlayerCars ()
-    {
-        using (var db = new SQLiteConnection(Application.dataPath + "/DB/drift_arcade.db"))
-        {
-            IEnumerable<Car> list = db.Query<Car>(String.Format("SELECT * FROM PlayerCars INNER JOIN Cars ON PlayerCars.car_id = Cars.id WHERE player_id = ${0};", PlayerPrefs.GetInt("player_id")));
-
         }
     }
 }
